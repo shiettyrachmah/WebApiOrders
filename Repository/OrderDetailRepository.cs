@@ -14,6 +14,13 @@ namespace WebApiOrder.Repository
             _db = db;
         }
 
+        public async Task<List<OrderDetail>> AddOrderDetail(List<OrderDetail> details)
+        {
+            _db.OrderDetail.AddRange(details);
+            await _db.SaveChangesAsync();
+            return details;
+        }
+
         public async Task<bool> DeleteOrderDetail(string orderID)
         {
             _db.OrderDetail.RemoveRange(_db.OrderDetail.Where(x => x.OrderID == orderID));

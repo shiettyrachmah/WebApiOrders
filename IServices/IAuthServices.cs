@@ -4,11 +4,11 @@ namespace WebApiOrder.IServices
 {
     public interface IAuthServices
     {
-        public Task<List<User>> GetAllDataUser();
+        Task<List<User>> GetAllDataUser();
 
-        public Task<User> AddUser(User user);
-        public Task<User?> GetByUsername(string username);
+        Task<User> AddUser(User user);
+        Task<User?> GetByUsername(string username);
 
-        public Task<User?> GetByUserId(string userId);
+        Task<User?> GetByUserId(string userId);
     }
 }

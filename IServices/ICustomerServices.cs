@@ -4,6 +4,6 @@ namespace WebApiOrder.IServices
 {
     public interface ICustomerServices 
     {
-        public Task<List<Customer>> GetAllDataCustomer();
+        Task<List<Customer>> GetAllDataCustomer();
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using WebApiOrder.IRepository;
 using WebApiOrder.IServices;
 using WebApiOrder.Models;
@@ -79,25 +81,19 @@ namespace WebApiOrder.Controllers
             }
         }
 
-        //[HttpPut("/UpdateOrder/{orderID}")]
-        //public async Task<IActionResult> UpdateOrder(string orderID, [FromBody] JsonPatchDocument patchMovie)
-        //{
-        //    try
-        //    {
-        //        bool result = await _services.UpdateOrder(orderID, patchMovie);
+        [HttpPost("/AddOrder")]
+        public async Task<ActionResult<OrderHeader>> AddOrder([FromForm] string postData)
+        {
+            try
+            {
+                var result = await _services.AddOrder(postData);
 
-        //        if (result == false)
-        //        {
-        //            return BadRequest(new { message = "Data Not Success updated" });
-        //        }
-
-        //        return Ok(new { message = "Data Success updated" });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+                return Ok(result);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

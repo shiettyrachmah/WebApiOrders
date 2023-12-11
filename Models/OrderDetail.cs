@@ -6,8 +6,8 @@ namespace WebApiOrder.Models
     public class OrderDetail
     {
         [Key]
-        [StringLength(10)]
-        public string OrderDetailID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int OrderDetailID { get; set; }
 
         [Required(ErrorMessage = "OrderID cannot be null")]
         [StringLength(10)]

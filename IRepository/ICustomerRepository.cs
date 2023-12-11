@@ -4,6 +4,6 @@ namespace WebApiOrder.IRepository
 {
     public interface ICustomerRepository
     {        
-        public Task<List<Customer>> GetAllDataCustomer();
+        Task<List<Customer>> GetAllDataCustomer();
     }
 }

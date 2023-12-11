@@ -7,6 +7,8 @@ namespace WebApiOrder.IRepository
     {
         Task<IEnumerable<object>> GetAllDataOrderDetail();
         Task<IEnumerable<object>> GetDataOrderDetailByOrderID(string orderID);
-        public Task<bool> DeleteOrderDetail(string orderID);
+        Task<bool> DeleteOrderDetail(string orderID);
+
+        Task<List<OrderDetail>> AddOrderDetail(List<OrderDetail> details);
     }
 }

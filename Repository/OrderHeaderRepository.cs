@@ -15,6 +15,13 @@ namespace WebApiOrder.Repository
             _db = db;
         }
 
+        public async Task<OrderHeader> AddOrder(OrderHeader? orderHeader)
+        {
+            _db.Add(orderHeader);
+            await _db.SaveChangesAsync();
+            return orderHeader;
+        }
+
         public async Task<bool> DeleteOrder(string orderID)
         {
             _db.OrderHeader.RemoveRange(_db.OrderHeader.Where(x => x.OrderID == orderID));
@@ -22,9 +29,14 @@ namespace WebApiOrder.Repository
             return true;
         }
 
+        public async Task<OrderHeader> GetHeaderLastInserted()
+        {
+            return await _db.OrderHeader.OrderByDescending(x => x.OrderID).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<object>> GetAllDataHeader()
         {
-            var result = await (from OrderHeader in _db.OrderHeader 
+            var result = await (from OrderHeader in _db.OrderHeader
                                 join Customer in _db.Customer on OrderHeader.CustomerID equals Customer.CustomerID
                                 select new
                                 {
@@ -46,7 +58,7 @@ namespace WebApiOrder.Repository
         {
             var result = await (from OrderHeader in _db.OrderHeader
                                join Customer in _db.Customer on OrderHeader.CustomerID equals Customer.CustomerID
-                               where (OrderHeader.OrderID.ToLower().Contains(orderID.ToLower()) || Customer.CustomerName == custName)
+                               where (OrderHeader.OrderID.ToLower().Contains(orderID.ToLower())) && (Customer.CustomerName == null || Customer.CustomerName == custName)
                                 select new
                                {
                                    OrderID = OrderHeader.OrderID,
@@ -63,9 +75,20 @@ namespace WebApiOrder.Repository
             return result;
         }
 
-        public Task<OrderHeader> UpdateOrder(string orderID)
+        public async Task<OrderHeader> UpdateTotalByOrderID(string orderID, decimal valueTotal)
         {
-            throw new NotImplementedException();
+            var existingHeader = await _db.OrderHeader.FirstOrDefaultAsync(x => x.OrderID == orderID);
+            if (existingHeader != null)
+            {
+                existingHeader.TotalPrice = valueTotal;
+                await _db.SaveChangesAsync();
+            }
+            else
+            {
+                return null;
+            }
+
+            return existingHeader;
         }
     }
 }

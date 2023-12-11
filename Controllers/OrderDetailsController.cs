@@ -59,5 +59,22 @@ namespace WebApiOrder.Controllers
             }
         }
 
+        [HttpPost("/updateOrderDetailProduct")]
+        public async Task<ActionResult<IEnumerable<object>>> updateOrderDetailProduct([FromBody] List<OrderDetail> orderDetails)
+        {
+            try
+            {
+                var result = await _services.UpdateOrderDetailProduct(orderDetails);
+
+                return Ok(new { message = "Data Success delete existing detail order and add newest data detail" });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }

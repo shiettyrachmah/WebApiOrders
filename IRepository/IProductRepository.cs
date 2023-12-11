@@ -4,6 +4,6 @@ namespace WebApiOrder.IRepository
 {
     public interface IProductRepository
     {
-        public Task<List<Product>> GetAllDataProduct();
+        Task<List<Product>> GetAllDataProduct();
     }
 }

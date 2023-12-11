@@ -5,9 +5,12 @@ namespace WebApiOrder.IRepository
 {
     public interface IOrderHeaderRepository
     {
-        public Task<IEnumerable<Object>> GetAllDataHeader();
-        public Task<IEnumerable<Object>> GetDataHeaderFiltered(string? orderID, string? custName);
-        public Task<bool> DeleteOrder(string orderID);
-        public Task<OrderHeader> UpdateOrder(string orderID);
+        Task<IEnumerable<Object>> GetAllDataHeader();
+        Task<IEnumerable<Object>> GetDataHeaderFiltered(string? orderID, string? custName);
+        Task<bool> DeleteOrder(string orderID);
+        Task<OrderHeader> UpdateTotalByOrderID(string orderID, decimal valueTotal);
+        Task<OrderHeader> AddOrder(OrderHeader? orderHeader);
+
+        Task<OrderHeader> GetHeaderLastInserted();
     }
 }

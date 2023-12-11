@@ -5,10 +5,9 @@ namespace WebApiOrder.IServices
 {
     public interface IOrderHeaderServices
     {
-        public Task<IEnumerable<Object>> GetAllDataHeader();
-        public Task<bool> DeleteOrder(string orderID);
-        public Task<IEnumerable<Object>> GetDataHeaderFiltered(string? orderID, string? custName);
-
-        public Task<OrderHeader> UpdateOrder(string orderID);
+        Task<IEnumerable<Object>> GetAllDataHeader();
+        Task<bool> DeleteOrder(string orderID);
+        Task<IEnumerable<Object>> GetDataHeaderFiltered(string? orderID, string? custName);
+        Task<OrderHeader> AddOrder(string postData);
     }
 }
