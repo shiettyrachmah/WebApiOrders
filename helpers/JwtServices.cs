@@ -7,7 +7,6 @@ namespace WebApiOrder.helpers
 {
     public class JwtServices : IJwtServices
     {
-        public string SECRET_KEY = "This Is Secure Key";
 
         public JwtServices()
         {
@@ -15,10 +14,10 @@ namespace WebApiOrder.helpers
 
         public string Generate(int userId)
         {
-            var symetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
+            var symetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constant.SECRET_KEY));
             var credentials = new SigningCredentials(symetricSecurityKey, algorithm: SecurityAlgorithms.HmacSha256Signature);
             var header = new JwtHeader(credentials);
-            var payload = new JwtPayload(issuer: userId.ToString(), audience: null, notBefore: null, claims: null, expires: DateTime.Today.AddDays(1));
+            var payload = new JwtPayload(issuer: userId.ToString(), audience: null, notBefore: null, claims: null, expires: DateTime.Today.AddMinutes(30));
 
             var securityToken = new JwtSecurityToken(header, payload);
 
@@ -28,7 +27,7 @@ namespace WebApiOrder.helpers
         public JwtSecurityToken Verify(string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes (SECRET_KEY);
+            var key = Encoding.ASCII.GetBytes (Constant.SECRET_KEY);
             tokenHandler.ValidateToken(jwt, new TokenValidationParameters
             {
                 IssuerSigningKey = new SymmetricSecurityKey(key),

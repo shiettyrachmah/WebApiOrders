@@ -2,6 +2,7 @@
 using WebApiOrder.Models;
 using WebApiOrder.IServices;
 using WebApiOrder.helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApiOrder.Controllers
 {
@@ -41,7 +42,6 @@ namespace WebApiOrder.Controllers
             }
         }
 
-
         [HttpPost("/register")]
         public async Task<ActionResult<User>> Register(User users)
         {
@@ -71,6 +71,7 @@ namespace WebApiOrder.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpPost("/login")]
 
         public async Task<ActionResult<User>> Login(User user)
@@ -90,6 +91,10 @@ namespace WebApiOrder.Controllers
 
             var cookie = _jwtServices.Generate(getExistingUser.UserID);
 
+            if(cookie == null)
+            {
+                return Unauthorized();
+            }
 
             Response.Cookies.Append(key: "cookie", value: cookie, new CookieOptions
             {

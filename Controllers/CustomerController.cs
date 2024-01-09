@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApiOrder.IServices;
 using WebApiOrder.Models;
 
@@ -16,6 +17,7 @@ namespace WebApiOrder.Controllers
             _logger = logger;
             _services = services;
         }
+
 
         [HttpGet("/GetAllDataCustomer")]
         public async Task<ActionResult<List<User>>> GetAllDataCustomer()

@@ -11,6 +11,6 @@ namespace WebApiOrder.IRepository
         Task<OrderHeader> UpdateTotalByOrderID(string orderID, decimal valueTotal);
         Task<OrderHeader> AddOrder(OrderHeader? orderHeader);
 
-        Task<OrderHeader> GetHeaderLastInserted();
+        Task<OrderHeader> GetHeaderLastInserted(string? customerID);
     }
 }

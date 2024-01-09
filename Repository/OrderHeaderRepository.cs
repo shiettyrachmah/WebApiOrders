@@ -29,9 +29,9 @@ namespace WebApiOrder.Repository
             return true;
         }
 
-        public async Task<OrderHeader> GetHeaderLastInserted()
+        public async Task<OrderHeader> GetHeaderLastInserted(string? customerID)
         {
-            return await _db.OrderHeader.OrderByDescending(x => x.OrderID).FirstOrDefaultAsync();
+            return await _db.OrderHeader.OrderByDescending(x => x.OrderID).FirstOrDefaultAsync(x => x.CustomerID == customerID);
         }
 
         public async Task<IEnumerable<object>> GetAllDataHeader()

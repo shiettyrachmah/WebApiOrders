@@ -38,26 +38,35 @@ namespace WebApiOrder.Services
                     List<OrderDetail> orderDetail = JsonSerializer.Deserialize<List<OrderDetail>>(detailData);
                     
                     //getMaxHeaderID
-                    var resultID = await _repo.GetHeaderLastInserted();
-                    var id = resultID.OrderID.Substring(5);
-                    var idInt = Convert.ToInt32(id) + 1;
-                    var idLatest = "";
-                    int intAdd1 = 0;
-
-                    if(idInt.ToString().Length != 5)
+                    var resultID = await _repo.GetHeaderLastInserted(orderHeader.CustomerID);
+                    var newOrderID = "";
+                    if (resultID == null)
                     {
-                        intAdd1 =  5 - idInt.ToString().Length;
+                        newOrderID = orderHeader.CustomerID + "00001";
+                    }
+                    else
+                    {
+                        var id = resultID.OrderID.Substring(5);
+                        var idInt = Convert.ToInt32(id) + 1;
+                        var idLatest = "";
+                        int intAdd1 = 0;
 
-                        for(int i=0; i<intAdd1; i++)
+                        if (idInt.ToString().Length != 5)
                         {
-                            idLatest += "0";
+                            intAdd1 = 5 - idInt.ToString().Length;
+
+                            for (int i = 0; i < intAdd1; i++)
+                            {
+                                idLatest += "0";
+                            }
                         }
+
+                        idLatest += idInt.ToString();
+                        newOrderID = orderHeader.CustomerID + idLatest;
                     }
 
-                    idLatest += idInt.ToString();
-                    var newOrderID = orderHeader.CustomerID + idLatest;
-                    orderHeader.OrderID = newOrderID.ToString();
 
+                    orderHeader.OrderID = newOrderID.ToString();
                     var resultHeader = await _repo.AddOrder(orderHeader);
                     var idNew = resultHeader.OrderID;
 
