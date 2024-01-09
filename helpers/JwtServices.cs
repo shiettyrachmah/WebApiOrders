@@ -17,7 +17,7 @@ namespace WebApiOrder.helpers
             var symetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constant.SECRET_KEY));
             var credentials = new SigningCredentials(symetricSecurityKey, algorithm: SecurityAlgorithms.HmacSha256Signature);
             var header = new JwtHeader(credentials);
-            var payload = new JwtPayload(issuer: userId.ToString(), audience: null, notBefore: null, claims: null, expires: DateTime.Today.AddMinutes(30));
+            var payload = new JwtPayload(issuer: userId.ToString(), audience: null, notBefore: null, claims: null, expires: DateTime.Today.AddMinutes(25));
 
             var securityToken = new JwtSecurityToken(header, payload);
 
